@@ -1,0 +1,25 @@
+## BUILDING
+##   (from project root directory)
+##   $ docker build -t drejmar-stacksmith .
+##
+## RUNNING
+##   $ docker run drejmar-stacksmith
+
+FROM gcr.io/stacksmith-images/debian-buildpack:wheezy-r8
+
+MAINTAINER Bitnami <containers@bitnami.com>
+
+ENV STACKSMITH_STACK_ID="zvx3wwa" \
+    STACKSMITH_STACK_NAME="drejmar/stacksmith" \
+    STACKSMITH_STACK_PRIVATE="1"
+
+RUN bitnami-pkg install go-1.6.2-1 --checksum 73f6ebc11da5d2b76044c924090919c08e5c39329bce1b3fcac3854c31625d43
+
+ENV GOPATH=/gopath
+ENV PATH=$GOPATH/bin:/opt/bitnami/go/bin:$PATH
+
+## STACKSMITH-END: Modifications below this line will be unchanged when regenerating
+
+# Go base template
+COPY . /app
+WORKDIR /app
